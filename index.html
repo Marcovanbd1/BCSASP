@@ -1,1355 +1,472 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ben Carter — NHS Primary Care &amp; Exercise Professional</title>
-
-<!-- Google Fonts: Inter for UI/body, JetBrains Mono for clinical data/labels -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NHS Neighbourhood Yoga | Two Harbours Healthcare PCN</title>
+<meta name="description" content="A free, six-session NHS programme for people who would like support with movement, persistent pain, stress, sleep or general wellbeing.">
+<!--
+  Editor note (not visible on the page): the participant quotes should only stay published
+  once the PCN confirms that consent covers public, anonymised publication.
+-->
 <style>
-  /* ============================================
-     DESIGN TOKENS
-     Signature motif: a heartbeat / vital-sign pulse
-     line used as the recurring divider + hero mark —
-     ties healthcare monitoring to physical activity.
-     ============================================ */
   :root{
-    --navy:        #0A2C4E;
-    --navy-deep:   #071D34;
-    --teal:        #0E7C7B;
-    --teal-bright: #14A39A;
-    --teal-light:  #4FD1C5;
-    --sky:         #EAF6FA;
-    --sky-mid:     #D7ECF3;
-    --white:       #FFFFFF;
-    --ink:         #16283B;
-    --mist:        #5C7891;
-
-    --font-body: 'Inter', -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-
-    --radius: 18px;
-    --radius-sm: 10px;
-    --shadow-soft: 0 10px 30px -12px rgba(10,44,78,0.15);
-    --shadow-lift: 0 20px 45px -15px rgba(10,44,78,0.28);
-    --ease: cubic-bezier(.22,.61,.36,1);
+    --ink:#1f2f2e;
+    --muted:#4f6361;
+    --teal:#1f6f6b;
+    --teal-dark:#154f4c;
+    --teal-soft:#e3f1ef;
+    --sand:#faf6ef;
+    --sand-deep:#f1e9da;
+    --clay:#c8744a;
+    --white:#ffffff;
+    --line:#dbe5e3;
+    --radius:20px;
+    --shadow:0 10px 30px rgba(31,47,46,.08);
+    --max:1120px;
   }
-
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
-  }
-
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:80px}
   body{
-    font-family:var(--font-body);
+    margin:0;
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
     color:var(--ink);
-    background:var(--white);
-    line-height:1.6;
-    overflow-x:hidden;
+    background:var(--sand);
+    line-height:1.7;
+    font-size:1.05rem;
   }
-
-  img,svg{display:block;max-width:100%;}
-  a{color:inherit;text-decoration:none;}
-  ul{list-style:none;}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;}
-  :focus-visible{outline:3px solid var(--teal-bright);outline-offset:3px;}
-
-  .wrap{
-    max-width:1200px;
-    margin:0 auto;
-    padding:0 32px;
-  }
-
+  h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.2;margin:0 0 .6em;color:var(--teal-dark)}
+  h1{font-size:clamp(2.2rem,5.5vw,3.7rem)}
+  h2{font-size:clamp(1.7rem,3.5vw,2.4rem)}
+  h3{font-size:1.25rem}
+  p{margin:0 0 1em}
+  a{color:var(--teal)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+  section{padding:72px 0}
   .eyebrow{
-    font-family:var(--font-mono);
-    font-size:0.78rem;
-    font-weight:600;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--teal);
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:14px;
+    display:inline-block;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:700;
+    color:var(--clay);margin-bottom:.8rem;
   }
-  .eyebrow::before{
-    content:'';
-    width:22px;height:2px;
-    background:var(--teal-bright);
-    display:inline-block;
-  }
+  .lead{font-size:1.15rem;color:var(--muted)}
 
-  h1,h2,h3,h4{
-    font-family:var(--font-body);
-    color:var(--navy-deep);
-    letter-spacing:-0.02em;
+  /* Header */
+  header.site{
+    position:sticky;top:0;z-index:50;background:rgba(250,246,239,.94);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
   }
-
-  .section-title{
-    font-size:clamp(2rem, 4vw, 2.9rem);
-    font-weight:800;
-    margin-bottom:16px;
-  }
-  .section-sub{
-    color:var(--mist);
-    max-width:620px;
-    font-size:1.05rem;
-    margin-bottom:56px;
-  }
-
-  section{
-    padding:120px 0;
-    position:relative;
-  }
-
-  /* ============ SCROLL REVEAL ============ */
-  .reveal{
-    opacity:0;
-    transform:translateY(28px);
-    transition:opacity .7s var(--ease), transform .7s var(--ease);
-  }
-  .reveal.is-visible{
-    opacity:1;
-    transform:translateY(0);
-  }
-  .reveal-stagger > *{transition-delay:calc(var(--i, 0) * 90ms);}
-
-  /* ============ PULSE DIVIDER (signature) ============ */
-  .pulse-divider{
-    width:100%;
-    height:46px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    opacity:0.9;
-  }
-  .pulse-divider svg{width:min(340px,80%);height:100%;}
-  .pulse-path{
-    fill:none;
-    stroke:var(--teal-bright);
-    stroke-width:2.5;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    stroke-dasharray:600;
-    stroke-dashoffset:600;
-    transition:stroke-dashoffset 1.4s var(--ease);
-  }
-  .pulse-divider.is-visible .pulse-path{stroke-dashoffset:0;}
-
-  /* ============ NAV ============ */
-  .nav{
-    position:fixed;
-    top:0;left:0;right:0;
-    z-index:1000;
-    background:rgba(255,255,255,0.0);
-    padding:22px 0;
-    transition:background .35s var(--ease), padding .35s var(--ease), box-shadow .35s var(--ease);
-  }
-  .nav.scrolled{
-    background:rgba(255,255,255,0.92);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-    padding:14px 0;
-    box-shadow:0 4px 24px -8px rgba(10,44,78,0.12);
-  }
-  .nav-inner{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .nav-logo{
-    font-weight:800;
-    font-size:1.15rem;
-    color:var(--navy-deep);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    transition:color .3s;
-  }
-  .nav.scrolled .nav-logo, .nav .nav-logo{color:var(--navy-deep);}
-  .nav-logo .dot{
-    width:9px;height:9px;border-radius:50%;
-    background:var(--teal-bright);
-    box-shadow:0 0 0 4px rgba(20,163,154,0.18);
-  }
-  .nav-links{
-    display:flex;
-    gap:36px;
-    align-items:center;
-  }
-  .nav-links a{
-    font-size:0.92rem;
-    font-weight:600;
-    color:var(--navy);
-    position:relative;
-    padding:4px 0;
-  }
-  .nav-links a::after{
-    content:'';
-    position:absolute;
-    left:0;bottom:-4px;
-    width:0;height:2px;
-    background:var(--teal-bright);
-    transition:width .3s var(--ease);
-  }
-  .nav-links a:hover::after,
-  .nav-links a.active::after{width:100%;}
-  .nav-cta{
-    background:var(--navy-deep);
-    color:var(--white) !important;
-    padding:10px 20px;
-    border-radius:100px;
-    font-size:0.85rem !important;
-  }
-  .nav-cta::after{display:none;}
-  .nav-toggle{
-    display:none;
-    font-size:1.4rem;
-    color:var(--navy-deep);
-    background:none;
-    z-index:1100;
-  }
-
-  @media (max-width:880px){
-    .nav-links{
-      position:fixed;
-      top:0;right:0;
-      height:100vh;
-      width:min(78vw,320px);
-      background:var(--navy-deep);
-      flex-direction:column;
-      justify-content:center;
-      gap:28px;
-      transform:translateX(100%);
-      transition:transform .4s var(--ease);
-    }
-    .nav-links.open{transform:translateX(0);}
-    .nav-links a{color:var(--white);font-size:1.05rem;}
-    .nav-cta{background:var(--teal-bright);}
-    .nav-toggle{display:block;}
-  }
-
-  /* ============ HERO ============ */
-  .hero{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    position:relative;
-    background:linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 55%, var(--teal) 145%);
-    color:var(--white);
-    overflow:hidden;
-    padding-top:100px;
-  }
-  .hero-bg-line{
-    position:absolute;
-    inset:0;
-    opacity:0.16;
-    pointer-events:none;
-  }
-  .hero-bg-line svg{width:100%;height:100%;}
-  .hero-glow{
-    position:absolute;
-    width:600px;height:600px;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(79,209,197,0.25), transparent 70%);
-    top:-180px; right:-160px;
-    filter:blur(10px);
-  }
-  .hero-inner{
-    position:relative;
-    z-index:2;
-    display:grid;
-    grid-template-columns:1.15fr 0.85fr;
-    gap:60px;
-    align-items:center;
-  }
-  .hero-eyebrow{
-    font-family:var(--font-mono);
-    font-size:0.8rem;
-    letter-spacing:0.16em;
-    text-transform:uppercase;
-    color:var(--teal-light);
-    display:flex;align-items:center;gap:10px;
-    margin-bottom:24px;
-  }
-  .hero-eyebrow .live{
-    width:8px;height:8px;border-radius:50%;
-    background:var(--teal-light);
-    animation:blip 1.8s infinite;
-  }
-  @keyframes blip{
-    0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(79,209,197,0.5);}
-    50%{opacity:0.5;box-shadow:0 0 0 8px rgba(79,209,197,0);}
-  }
-  .hero h1{
-    color:var(--white);
-    font-size:clamp(2.6rem, 6vw, 4.6rem);
-    font-weight:800;
-    line-height:1.02;
-    margin-bottom:22px;
-  }
-  .hero h1 span{
-    background:linear-gradient(90deg, var(--teal-light), #9be8e0);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .hero-role{
-    font-size:1.05rem;
-    font-weight:600;
-    color:var(--sky-mid);
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px 14px;
-    margin-bottom:26px;
-  }
-  .hero-role span{
-    display:inline-flex;align-items:center;gap:8px;
-  }
-  .hero-role span:not(:last-child)::after{
-    content:'';
-    width:4px;height:4px;border-radius:50%;
-    background:var(--teal-light);
-    margin-left:14px;
-  }
-  .hero-intro{
-    max-width:520px;
-    font-size:1.1rem;
-    color:rgba(255,255,255,0.82);
-    margin-bottom:38px;
-  }
-  .hero-actions{
-    display:flex;
-    gap:16px;
-    flex-wrap:wrap;
-  }
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:66px}
+  .brand{font-family:Georgia,serif;font-weight:700;color:var(--teal-dark);text-decoration:none;font-size:1.1rem}
+  .nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
+  .nav ul a{text-decoration:none;color:var(--ink);font-size:.95rem;font-weight:500}
+  .nav ul a:hover{color:var(--teal)}
   .btn{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    padding:15px 28px;
-    border-radius:100px;
-    font-weight:700;
-    font-size:0.95rem;
-    transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s;
+    display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:600;
+    padding:14px 28px;border-radius:999px;transition:transform .2s,background .2s,box-shadow .2s;
+    box-shadow:0 6px 16px rgba(31,111,107,.25);
   }
-  .btn-primary{
-    background:var(--teal-bright);
-    color:var(--navy-deep);
-  }
-  .btn-primary:hover{
-    transform:translateY(-3px);
-    box-shadow:0 14px 28px -10px rgba(20,163,154,0.55);
-  }
-  .btn-ghost{
-    background:rgba(255,255,255,0.08);
-    color:var(--white);
-    border:1.5px solid rgba(255,255,255,0.35);
-  }
-  .btn-ghost:hover{
-    background:rgba(255,255,255,0.16);
-    transform:translateY(-3px);
-  }
+  .btn:hover{background:var(--teal-dark);transform:translateY(-2px)}
+  .btn:focus-visible,a:focus-visible{outline:3px solid var(--clay);outline-offset:3px}
+  .btn.small{padding:10px 20px;font-size:.92rem}
+  .btn.light{background:#fff;color:var(--teal-dark);box-shadow:none}
+  .btn.light:hover{background:var(--sand-deep)}
+  .btn.large{padding:16px 38px;font-size:1.1rem}
 
-  /* Hero side panel: mini vitals card */
+  /* Hero */
+  .hero{
+    padding:84px 0 70px;
+    background:
+      radial-gradient(circle at 85% 15%,rgba(200,116,74,.16),transparent 38%),
+      radial-gradient(circle at 10% 90%,rgba(31,111,107,.15),transparent 40%),
+      var(--sand);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:48px;align-items:center}
+  .hero p.lead{max-width:34em}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
   .hero-card{
-    background:rgba(255,255,255,0.07);
-    border:1px solid rgba(255,255,255,0.16);
-    backdrop-filter:blur(16px);
-    -webkit-backdrop-filter:blur(16px);
-    border-radius:var(--radius);
-    padding:32px;
-    box-shadow:var(--shadow-lift);
+    background:var(--white);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);
+    border-top:6px solid var(--clay);
   }
-  .hero-card-head{
-    display:flex;justify-content:space-between;align-items:center;
-    margin-bottom:22px;
-    padding-bottom:18px;
-    border-bottom:1px solid rgba(255,255,255,0.14);
-  }
-  .hero-card-head h4{color:var(--white);font-size:0.95rem;font-weight:700;}
-  .hero-card-head .badge{
-    font-family:var(--font-mono);
-    font-size:0.7rem;
-    color:var(--teal-light);
-    background:rgba(79,209,197,0.14);
-    padding:4px 10px;
-    border-radius:100px;
-  }
-  .hero-stat-row{
-    display:flex;
-    justify-content:space-between;
-    padding:12px 0;
-    border-bottom:1px dashed rgba(255,255,255,0.14);
-  }
-  .hero-stat-row:last-child{border-bottom:none;}
-  .hero-stat-row .label{color:rgba(255,255,255,0.7);font-size:0.88rem;}
-  .hero-stat-row .value{font-family:var(--font-mono);font-weight:600;color:var(--white);}
+  .hero-card h2{font-size:1.35rem;color:var(--teal-dark)}
+  .hero-card p{color:var(--muted);margin-bottom:0}
 
-  .scroll-cue{
-    position:absolute;
-    bottom:34px;left:50%;
-    transform:translateX(-50%);
-    display:flex;flex-direction:column;align-items:center;gap:8px;
-    color:rgba(255,255,255,0.65);
-    font-size:0.75rem;
-    font-family:var(--font-mono);
-    letter-spacing:0.1em;
-    z-index:2;
+  /* Key facts strip */
+  .facts{margin-top:-34px;position:relative;z-index:2;padding:0}
+  .facts-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);background:var(--teal);color:#fff;
+    border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
   }
-  .scroll-cue .stick{
-    width:1px;height:34px;
-    background:linear-gradient(var(--teal-light), transparent);
-    animation:scrolldown 1.8s infinite;
-  }
-  @keyframes scrolldown{
-    0%{transform:scaleY(0);transform-origin:top;}
-    50%{transform:scaleY(1);transform-origin:top;}
-    50.1%{transform-origin:bottom;}
-    100%{transform:scaleY(0);transform-origin:bottom;}
-  }
+  .fact{padding:24px 20px;text-align:center;border-right:1px solid rgba(255,255,255,.18)}
+  .fact:last-child{border-right:none}
+  .fact strong{display:block;font-family:Georgia,serif;font-size:1.5rem;line-height:1.2}
+  .fact span{font-size:.92rem;opacity:.9}
 
-  @media (max-width:980px){
-    .hero-inner{grid-template-columns:1fr;}
-    .hero-card{order:-1;}
+  /* Cards */
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{
+    background:var(--white);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);
+    border:1px solid var(--line);
   }
+  .card p:last-child{margin-bottom:0}
+  .tint{background:var(--teal-soft);border-color:transparent}
+  .alt{background:var(--sand-deep)}
+  .white{background:var(--white)}
+  .section-head{max-width:720px;margin-bottom:38px}
 
-  /* ============ ABOUT ============ */
-  .about{background:var(--white);}
-  .about-inner{
-    display:grid;
-    grid-template-columns:0.9fr 1.1fr;
-    gap:70px;
-    align-items:start;
+  /* Lists */
+  .check{list-style:none;margin:0;padding:0}
+  .check li{position:relative;padding:12px 0 12px 40px;border-bottom:1px solid var(--line)}
+  .check li:last-child{border-bottom:none}
+  .check li::before{
+    content:"";position:absolute;left:0;top:16px;width:24px;height:24px;border-radius:50%;
+    background:var(--teal-soft) 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 12.5l3.2 3.2L17 9' fill='none' stroke='%231f6f6b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
   }
-  .about-figure{
-    background:linear-gradient(150deg, var(--sky), var(--sky-mid));
-    border-radius:var(--radius);
-    padding:38px;
-    position:relative;
-    overflow:hidden;
+  .notice{
+    border-left:5px solid var(--clay);background:#fff;border-radius:0 var(--radius) var(--radius) 0;
+    padding:22px 26px;margin-top:28px;box-shadow:var(--shadow)
   }
-  .about-figure .fig-icon{
-    font-size:2.4rem;
-    color:var(--teal);
-    margin-bottom:18px;
-  }
-  .about-figure h4{font-size:1.2rem;margin-bottom:10px;}
-  .about-figure p{color:var(--mist);font-size:0.95rem;margin-bottom:22px;}
-  .about-metric-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-    margin-top:8px;
-  }
-  .about-metric{
-    background:var(--white);
-    border-radius:var(--radius-sm);
-    padding:16px;
-    box-shadow:var(--shadow-soft);
-  }
-  .about-metric .num{
-    font-family:var(--font-mono);
-    font-weight:700;
-    font-size:1.4rem;
-    color:var(--navy-deep);
-  }
-  .about-metric .lbl{
-    font-size:0.78rem;
-    color:var(--mist);
-    margin-top:2px;
-  }
-  .about-body p{
-    margin-bottom:20px;
-    color:var(--ink);
-    font-size:1.04rem;
-  }
-  .about-body p:first-of-type{
-    font-size:1.18rem;
-    font-weight:600;
-    color:var(--navy-deep);
-  }
+  .notice p:last-child{margin:0}
 
-  /* ============ QUALIFICATIONS ============ */
-  .quals{background:var(--sky);}
-  .qual-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:24px;
-  }
-  .qual-card{
-    background:var(--white);
-    border-radius:var(--radius);
-    padding:30px 26px;
-    box-shadow:var(--shadow-soft);
-    transition:transform .35s var(--ease), box-shadow .35s var(--ease);
-    border-top:3px solid var(--teal-bright);
-  }
-  .qual-card:hover{
-    transform:translateY(-8px);
-    box-shadow:var(--shadow-lift);
-  }
-  .qual-icon{
-    width:52px;height:52px;
-    border-radius:14px;
-    background:linear-gradient(135deg, var(--navy), var(--teal));
-    color:var(--white);
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.3rem;
-    margin-bottom:18px;
-  }
-  .qual-card h4{font-size:1.05rem;margin-bottom:8px;line-height:1.35;}
-  .qual-card p{font-size:0.9rem;color:var(--mist);}
-  .qual-tag{
-    display:inline-block;
-    margin-top:14px;
-    font-family:var(--font-mono);
-    font-size:0.68rem;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    padding:4px 10px;
-    border-radius:100px;
-    background:var(--sky);
-    color:var(--teal);
-    font-weight:600;
-  }
+  /* Practical table */
+  .info{display:grid;grid-template-columns:repeat(2,1fr);gap:0 40px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 34px;border:1px solid var(--line)}
+  .row{padding:18px 0;border-bottom:1px solid var(--line)}
+  .row dt{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--clay);margin-bottom:4px}
+  .row dd{margin:0}
+  .row.wide{grid-column:1/-1}
 
-  /* ============ TIMELINE ============ */
-  .timeline-section{background:var(--white);}
-  .timeline{
-    position:relative;
-    max-width:900px;
-    margin:0 auto;
+  /* Quotes */
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  blockquote{
+    margin:0;background:#fff;border-radius:var(--radius);padding:30px 28px 26px;box-shadow:var(--shadow);
+    position:relative;font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:var(--teal-dark);
+    border:1px solid var(--line);
   }
-  .timeline::before{
-    content:'';
-    position:absolute;
-    left:26px;
-    top:6px;bottom:6px;
-    width:2px;
-    background:linear-gradient(var(--teal-bright), var(--sky-mid));
-  }
-  @media(min-width:760px){
-    .timeline::before{left:50%;transform:translateX(-50%);}
-  }
-  .tl-item{
-    position:relative;
-    padding-left:70px;
-    margin-bottom:56px;
-  }
-  .tl-item:last-child{margin-bottom:0;}
-  .tl-dot{
-    position:absolute;
-    left:16px;top:2px;
-    width:22px;height:22px;
-    border-radius:50%;
-    background:var(--white);
-    border:3px solid var(--teal-bright);
-    box-shadow:0 0 0 6px var(--sky);
-  }
-  .tl-dot::after{
-    content:'';
-    position:absolute;inset:4px;
-    border-radius:50%;
-    background:var(--teal-bright);
-  }
-  @media(min-width:760px){
-    .tl-item{
-      width:calc(50% - 40px);
-      padding-left:0;
-      padding-right:0;
-    }
-    .tl-item:nth-child(odd){margin-left:0;text-align:right;padding-right:44px;}
-    .tl-item:nth-child(even){margin-left:calc(50% + 40px);padding-left:44px;}
-    .tl-dot{left:auto;}
-    .tl-item:nth-child(odd) .tl-dot{right:-49px;}
-    .tl-item:nth-child(even) .tl-dot{left:-49px;}
-  }
-  .tl-card{
-    background:var(--sky);
-    border-radius:var(--radius);
-    padding:28px 30px;
-  }
-  .tl-org{
-    font-family:var(--font-mono);
-    font-size:0.75rem;
-    color:var(--teal);
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    margin-bottom:6px;
-    font-weight:600;
-  }
-  .tl-card h4{font-size:1.25rem;margin-bottom:10px;}
-  .tl-card > p{color:var(--mist);font-size:0.95rem;margin-bottom:16px;}
-  .tl-list{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-  .tl-item:nth-child(odd) .tl-list li{justify-content:flex-end;text-align:right;}
-  .tl-list li{
-    font-size:0.9rem;
-    display:flex;
-    gap:10px;
-    align-items:flex-start;
-    color:var(--ink);
-  }
-  .tl-list i{color:var(--teal-bright);margin-top:4px;font-size:0.8rem;}
-  .tl-item:nth-child(odd) .tl-list li i{order:2;}
+  blockquote::before{content:"“";position:absolute;top:-6px;left:20px;font-size:4rem;color:var(--clay);line-height:1;opacity:.55}
+  blockquote p{margin:12px 0 0}
 
-  /* ============ SKILLS ============ */
-  .skills-section{background:var(--navy-deep);color:var(--white);}
-  .skills-section .section-title, .skills-section h2{color:var(--white);}
-  .skills-section .section-sub{color:rgba(255,255,255,0.6);}
-  .badge-cloud{
-    display:flex;
-    flex-wrap:wrap;
-    gap:14px;
-  }
-  .badge{
-    font-family:var(--font-mono);
-    font-size:0.85rem;
-    font-weight:500;
-    padding:11px 20px;
-    border-radius:100px;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.16);
-    color:var(--sky-mid);
-    transition:transform .3s var(--ease), background .3s, border-color .3s, color .3s;
-    opacity:0;
-    transform:translateY(14px) scale(0.94);
-  }
-  .badge.is-visible{
-    opacity:1;
-    transform:translateY(0) scale(1);
-    transition:transform .5s var(--ease), background .3s, border-color .3s, color .3s, opacity .5s var(--ease);
-  }
-  .badge:hover{
-    background:var(--teal-bright);
-    border-color:var(--teal-bright);
-    color:var(--navy-deep);
-    transform:translateY(-4px);
-  }
+  .pattern-list{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:18px 0}
+  .pattern-list li{background:var(--teal-soft);color:var(--teal-dark);padding:9px 18px;border-radius:999px;font-weight:600;font-size:.95rem}
 
-  .competency-block{margin-top:70px;}
-  .competency-block h3{
-    color:var(--white);
-    font-size:1.3rem;
-    margin-bottom:30px;
+  /* Evidence */
+  .evidence-card{border-top:5px solid var(--teal)}
+  .links{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .links a{
+    display:block;padding:16px 20px;background:#fff;border:1px solid var(--line);border-radius:14px;
+    text-decoration:none;font-weight:600;transition:border-color .2s,transform .2s;
   }
-  .prog-row{margin-bottom:24px;}
-  .prog-labels{
-    display:flex;justify-content:space-between;
-    margin-bottom:8px;
-    font-size:0.9rem;
-  }
-  .prog-labels .pname{font-weight:600;}
-  .prog-labels .pval{font-family:var(--font-mono);color:var(--teal-light);}
-  .prog-track{
-    height:8px;
-    border-radius:100px;
-    background:rgba(255,255,255,0.1);
-    overflow:hidden;
-  }
-  .prog-fill{
-    height:100%;
-    border-radius:100px;
-    width:0%;
-    background:linear-gradient(90deg, var(--teal), var(--teal-light));
-    transition:width 1.4s var(--ease);
-  }
+  .links a:hover{border-color:var(--teal);transform:translateY(-2px)}
+  .links small{display:block;font-weight:400;color:var(--muted)}
 
-  /* ============ PROJECTS ============ */
-  .projects{background:var(--sky);}
-  .project-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:26px;
-  }
-  .project-card{
-    background:var(--white);
-    border-radius:var(--radius);
-    padding:32px;
-    box-shadow:var(--shadow-soft);
-    transition:transform .35s var(--ease), box-shadow .35s var(--ease);
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-  }
-  .project-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lift);}
-  .project-num{
-    font-family:var(--font-mono);
-    font-size:0.78rem;
-    color:var(--teal);
-    font-weight:600;
-  }
-  .project-card h4{font-size:1.15rem;}
-  .project-card p{color:var(--mist);font-size:0.92rem;flex-grow:1;}
-  .project-icon{
-    width:46px;height:46px;
-    border-radius:12px;
-    background:var(--sky);
-    color:var(--teal);
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.2rem;
-  }
+  /* CTA */
+  .cta{background:var(--teal-dark);color:#fff;text-align:center}
+  .cta h2{color:#fff}
+  .cta p{max-width:640px;margin-left:auto;margin-right:auto;color:rgba(255,255,255,.9)}
 
-  /* ============ VALUES ============ */
-  .values{background:var(--white);}
-  .values-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:22px;
+  /* Book Now */
+  .book{background:var(--sand);text-align:center}
+  .book-card{
+    max-width:760px;margin:0 auto;background:var(--white);border-radius:var(--radius);
+    padding:48px 34px;box-shadow:var(--shadow);border:1px solid var(--line);border-top:6px solid var(--clay);
   }
-  .value-card{
-    text-align:center;
-    padding:34px 20px;
-    border-radius:var(--radius);
-    background:linear-gradient(150deg, var(--sky), var(--white));
-    border:1px solid var(--sky-mid);
-    transition:transform .35s var(--ease);
-  }
-  .value-card:hover{transform:translateY(-6px);}
-  .value-card i{
-    font-size:1.7rem;
-    color:var(--teal);
-    margin-bottom:16px;
-  }
-  .value-card h4{font-size:1rem;}
+  .book-card h2{margin-bottom:.4em}
+  .book-card .lead{max-width:30em;margin-left:auto;margin-right:auto}
+  .book-actions{margin-top:26px}
+  .book-email{margin:18px 0 0;font-size:.95rem;color:var(--muted)}
+  .book-email a{font-weight:600;word-break:break-all}
 
-  /* ============ STATS ============ */
-  .stats{
-    background:linear-gradient(120deg, var(--navy) 0%, var(--teal) 130%);
-    color:var(--white);
-    padding:100px 0;
-  }
-  .stats-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:20px;
-    text-align:center;
-  }
-  .stat-card{padding:20px;}
-  .stat-num{
-    font-family:var(--font-mono);
-    font-weight:700;
-    font-size:clamp(2.2rem,4vw,3.2rem);
-    color:var(--white);
-    display:flex;
-    align-items:baseline;
-    justify-content:center;
-    gap:3px;
-  }
-  .stat-num .suffix{font-size:0.5em;color:var(--teal-light);}
-  .stat-label{
-    margin-top:10px;
-    font-size:0.88rem;
-    color:rgba(255,255,255,0.75);
-    font-weight:500;
-  }
+  footer{background:#10302e;color:rgba(255,255,255,.82);padding:34px 0;font-size:.92rem}
+  footer p{margin:0 0 .5em;max-width:760px}
+  footer strong{color:#fff}
 
-  /* ============ CAREER GOAL ============ */
-  .goal{
-    background:var(--white);
-    text-align:center;
+  /* Responsive */
+  @media (max-width:960px){
+    .hero-grid{grid-template-columns:1fr}
+    .grid-3,.quotes{grid-template-columns:1fr 1fr}
+    .facts-grid{grid-template-columns:repeat(2,1fr)}
+    .fact:nth-child(2){border-right:none}
+    .fact:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.18)}
   }
-  .goal-inner{
-    max-width:760px;
-    margin:0 auto;
+  @media (max-width:760px){
+    section{padding:54px 0}
+    .nav ul{display:none}
+    .grid-2,.grid-3,.quotes,.info,.links{grid-template-columns:1fr}
+    .info{padding:8px 22px}
+    .hero{padding:56px 0 60px}
+    .book-card{padding:36px 22px}
   }
-  .goal p{
-    font-size:clamp(1.2rem,2.4vw,1.6rem);
-    font-weight:600;
-    color:var(--navy-deep);
-    line-height:1.5;
-  }
-  .goal .highlight{color:var(--teal);}
-
-  /* ============ CONTACT ============ */
-  .contact{
-    background:var(--navy-deep);
-    color:var(--white);
-    text-align:center;
-  }
-  .contact .section-title{color:var(--white);}
-  .contact .section-sub{color:rgba(255,255,255,0.65);margin-left:auto;margin-right:auto;}
-  .contact-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    max-width:820px;
-    margin:0 auto;
-  }
-  .contact-card{
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.14);
-    border-radius:var(--radius);
-    padding:30px 22px;
-    transition:transform .3s var(--ease), background .3s;
-  }
-  .contact-card:hover{transform:translateY(-6px);background:rgba(255,255,255,0.1);}
-  .contact-card i{font-size:1.4rem;color:var(--teal-light);margin-bottom:14px;}
-  .contact-card .clabel{
-    font-family:var(--font-mono);
-    font-size:0.7rem;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:rgba(255,255,255,0.5);
-    margin-bottom:6px;
-  }
-  .contact-card .cval{font-weight:600;font-size:0.98rem;}
-
-  /* ============ FOOTER ============ */
-  footer{
-    background:var(--navy-deep);
-    color:rgba(255,255,255,0.55);
-    text-align:center;
-    padding:32px 0 40px;
-    font-size:0.85rem;
-    border-top:1px solid rgba(255,255,255,0.08);
-  }
-  footer .foot-name{color:var(--white);font-weight:700;}
-  footer .heart{color:var(--teal-light);}
-
-  @media(max-width:880px){
-    section{padding:80px 0;}
-    .about-inner{grid-template-columns:1fr;gap:44px;}
-  }
-  @media(max-width:600px){
-    .wrap{padding:0 22px;}
-    .hero-actions{flex-direction:column;align-items:stretch;}
-    .btn{justify-content:center;}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .btn,.links a{transition:none}
   }
 </style>
 </head>
 <body>
 
-<!-- ===================== NAV ===================== -->
-<nav class="nav" id="nav">
-  <div class="wrap nav-inner">
-    <a href="#home" class="nav-logo"><span class="dot"></span>Ben Carter</a>
-    <ul class="nav-links" id="navLinks">
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="#top">NHS Neighbourhood Yoga</a>
+    <ul>
       <li><a href="#about">About</a></li>
-      <li><a href="#qualifications">Qualifications</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact" class="nav-cta">Contact</a></li>
+      <li><a href="#suitable">Is it for me?</a></li>
+      <li><a href="#practical">Practical information</a></li>
+      <li><a href="#feedback">Feedback</a></li>
+      <li><a href="#evidence">Evidence</a></li>
     </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+    <a class="btn small" href="#referral">Ask for a place</a>
   </div>
-</nav>
-
-<!-- ===================== HERO ===================== -->
-<header class="hero" id="home">
-  <div class="hero-glow"></div>
-  <div class="hero-bg-line">
-    <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
-      <polyline points="0,200 150,200 190,120 230,280 270,60 310,200 500,200 540,150 580,250 620,200 1200,200"
-        fill="none" stroke="#4FD1C5" stroke-width="2"/>
-    </svg>
-  </div>
-  <div class="wrap hero-inner">
-    <div>
-      <div class="hero-eyebrow"><span class="live"></span>Available for community physical activity &amp; MSK roles</div>
-      <h1>Ben <span>Carter</span></h1>
-      <div class="hero-role">
-        <span><i class="fa-solid fa-hospital"></i> NHS Primary Care</span>
-        <span><i class="fa-solid fa-person-walking"></i> Exercise Professional</span>
-        <span><i class="fa-solid fa-laptop-medical"></i> Digital Innovation</span>
-        <span><i class="fa-solid fa-shield-heart"></i> Falls Prevention Specialist</span>
-      </div>
-      <p class="hero-intro">Helping people live healthier, stronger and more independent lives through physical activity, behaviour change and innovative healthcare solutions.</p>
-      <div class="hero-actions">
-        <a href="#experience" class="btn btn-primary"><i class="fa-solid fa-arrow-down"></i> View Experience</a>
-        <a href="#contact" class="btn btn-ghost"><i class="fa-regular fa-envelope"></i> Get in Touch</a>
-      </div>
-    </div>
-
-    <div class="hero-card">
-      <div class="hero-card-head">
-        <h4>Practice Snapshot</h4>
-        <span class="badge">Live</span>
-      </div>
-      <div class="hero-stat-row"><span class="label">GP Practices Supported</span><span class="value">5</span></div>
-      <div class="hero-stat-row"><span class="label">Patients Covered</span><span class="value">~75,000</span></div>
-      <div class="hero-stat-row"><span class="label">Years in Primary Care</span><span class="value">2+</span></div>
-      <div class="hero-stat-row"><span class="label">Qualification Level</span><span class="value">Level 4 PSI</span></div>
-      <div class="hero-stat-row"><span class="label">Current Study</span><span class="value">GP Exercise Referral</span></div>
-    </div>
-  </div>
-
-  <div class="scroll-cue"><span>SCROLL</span><span class="stick"></span></div>
 </header>
 
-<!-- ===================== ABOUT ===================== -->
-<section class="about" id="about">
-  <div class="wrap">
-    <div class="eyebrow reveal">About</div>
-    <h2 class="section-title reveal">Bridging clinical care and everyday movement</h2>
-    <div class="about-inner">
-      <div class="about-figure reveal">
-        <div class="fig-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-        <h4>Why I do this</h4>
-        <p>I believe the biggest gains in healthy ageing come from combining clinical knowledge with practical, evidence-based physical activity — delivered somewhere people can actually access it.</p>
-        <div class="about-metric-grid">
-          <div class="about-metric"><div class="num">5</div><div class="lbl">GP Practices</div></div>
-          <div class="about-metric"><div class="num">75k</div><div class="lbl">Patients</div></div>
-          <div class="about-metric"><div class="num">6</div><div class="lbl">Major Projects</div></div>
-          <div class="about-metric"><div class="num">L4</div><div class="lbl">PSI Qualified</div></div>
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Two Harbours Healthcare PCN</span>
+        <h1>Feel better in body and mind</h1>
+        <p class="lead">NHS Neighbourhood Yoga is a free, six-session programme for people who would like support with movement, persistent pain, stress, sleep or general wellbeing. You do not need to be flexible and you do not need any previous yoga experience.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#referral">Ask your GP practice team for a referral</a>
+          <a class="btn light" href="#practical">See dates and venue</a>
         </div>
       </div>
-      <div class="about-body">
-        <p class="reveal">I have over two years' experience working within NHS Primary Care, combining healthcare, physical activity, service improvement and digital innovation to support people at every stage of ageing well.</p>
-        <p class="reveal">Across five GP practices serving approximately 75,000 patients, I've worked at the intersection of preventative healthcare and exercise — designing falls management programmes, leading the rollout of remote monitoring technology, and building digital resources that connect patients with the right support at the right time.</p>
-        <p class="reveal">I'm passionate about helping people become more active and independent through evidence-based exercise and preventative healthcare, and I work closely with GPs, nurses, physiotherapists, pharmacists and social prescribers to make that happen in practice, not just on paper.</p>
+      <aside class="hero-card">
+        <h2>Our approach</h2>
+        <p>A small, friendly NHS programme that helps people move safely, settle the mind and develop practical skills for everyday wellbeing — with guidance from a trained teacher.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Key facts -->
+  <div class="facts">
+    <div class="wrap">
+      <div class="facts-grid">
+        <div class="fact"><strong>Small group</strong><span>Up to 15 people</span></div>
+        <div class="fact"><strong>Six sessions</strong><span>Plan to attend the full course</span></div>
+        <div class="fact"><strong>Free</strong><span>To eligible NHS patients</span></div>
+        <div class="fact"><strong>NHS referral</strong><span>Via your GP practice team</span></div>
       </div>
     </div>
   </div>
-</section>
 
-<div class="pulse-divider reveal" id="pulse1">
-  <svg viewBox="0 0 340 46"><path class="pulse-path" d="M0,23 L90,23 L112,6 L134,40 L156,23 L188,23 L206,10 L222,36 L240,23 L340,23"/></svg>
-</div>
-
-<!-- ===================== QUALIFICATIONS ===================== -->
-<section class="quals" id="qualifications">
-  <div class="wrap">
-    <div class="eyebrow reveal">Qualifications</div>
-    <h2 class="section-title reveal">Trained, tested, and still learning</h2>
-    <p class="section-sub reveal">A qualification base built specifically for safe, effective exercise delivery within a healthcare setting.</p>
-
-    <div class="qual-grid reveal-stagger">
-      <div class="qual-card reveal" style="--i:0">
-        <div class="qual-icon"><i class="fa-solid fa-person-cane"></i></div>
-        <h4>Level 4 Postural Stability Instructor (PSI)</h4>
-        <p>Qualified to deliver specialist strength and balance exercise for older adults at risk of falling.</p>
-        <span class="qual-tag">Qualified</span>
-      </div>
-      <div class="qual-card reveal" style="--i:1">
-        <div class="qual-icon"><i class="fa-solid fa-stethoscope"></i></div>
-        <h4>GP Exercise Referral</h4>
-        <p>Currently studying to extend clinical exercise prescription across a wider range of long-term conditions.</p>
-        <span class="qual-tag">In Progress</span>
-      </div>
-      <div class="qual-card reveal" style="--i:2">
-        <div class="qual-icon"><i class="fa-solid fa-people-arrows"></i></div>
-        <h4>NHS Edward Jenner Leadership Programme</h4>
-        <p>Currently completing this NHS leadership development programme to strengthen service and system leadership.</p>
-        <span class="qual-tag">In Progress</span>
-      </div>
-      <div class="qual-card reveal" style="--i:3">
-        <div class="qual-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-        <h4>A-Level Qualifications</h4>
-        <p>Core academic foundation supporting further clinical and exercise science study.</p>
-        <span class="qual-tag">Completed</span>
-      </div>
-      <div class="qual-card reveal" style="--i:4">
-        <div class="qual-icon"><i class="fa-solid fa-dumbbell"></i></div>
-        <h4>Commercial Gym Experience</h4>
-        <p>Practical coaching background gained working within a commercial gym environment.</p>
-        <span class="qual-tag">Experience</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== EXPERIENCE TIMELINE ===================== -->
-<section class="timeline-section" id="experience">
-  <div class="wrap">
-    <div class="eyebrow reveal">Experience</div>
-    <h2 class="section-title reveal">Where the work has happened</h2>
-    <p class="section-sub reveal">Two roles, one focus: keeping people active, confident and independent for longer.</p>
-
-    <div class="timeline">
-      <div class="tl-item reveal">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-org">NHS Primary Care · 2+ Years</div>
-          <h4>Service Improvement, Healthy Ageing &amp; Preventative Healthcare</h4>
-          <p>Worked across five GP practices serving approximately 75,000 patients, collaborating with GPs, nurses, physiotherapists, pharmacists, social prescribers and Help &amp; Care Social Prescribers.</p>
-          <ul class="tl-list">
-            <li><i class="fa-solid fa-circle-check"></i> Designed, implemented and evaluated a Falls Management Exercise Programme</li>
-            <li><i class="fa-solid fa-circle-check"></i> Led implementation of Luscii Remote Blood Pressure Monitoring</li>
-            <li><i class="fa-solid fa-circle-check"></i> Delivered Dorset's most successful onboarding programme for Viso BP@Home</li>
-            <li><i class="fa-solid fa-circle-check"></i> Created Healthy Living and Healthy Ageing websites from scratch</li>
-            <li><i class="fa-solid fa-circle-check"></i> Developed a Physical Activity Mapping directory for professionals and patients</li>
-          </ul>
+  <!-- About -->
+  <section id="about">
+    <div class="wrap">
+      <div class="grid-2">
+        <div>
+          <span class="eyebrow">About the programme</span>
+          <h2>Gentle, adaptable and welcoming</h2>
+          <p class="lead">Sessions combine gentle movement, focused attention, relaxation and simple breathing practices. The approach is adapted to the people in the room.</p>
+          <p>It is not a fast fitness class and you will not be asked to force your body into difficult positions.</p>
+          <div class="notice">
+            <p><strong>Small group • Six sessions • NHS referral</strong><br>Places are limited to 15 people. To get the most from the programme, please plan to attend the full course.</p>
+          </div>
         </div>
-      </div>
-
-      <div class="tl-item reveal">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-org">BC Balance Coaching · Founder</div>
-          <h4>Personalised Strength &amp; Balance Coaching</h4>
-          <p>Founded and run a coaching practice providing personalised strength and balance training for older adults.</p>
-          <ul class="tl-list">
-            <li><i class="fa-solid fa-circle-check"></i> Supports confidence and independence through evidence-based exercise</li>
-            <li><i class="fa-solid fa-circle-check"></i> Focused on falls prevention for older adults</li>
-            <li><i class="fa-solid fa-circle-check"></i> Individually tailored coaching plans</li>
+        <div class="card tint">
+          <h3>What to expect</h3>
+          <ul class="check">
+            <li>A welcoming group of up to 15 people.</li>
+            <li>Six guided sessions, with practices developing gradually.</li>
+            <li>Gentle movement, relaxation, attention and simple breathing practices.</li>
+            <li>Choices and adjustments rather than one fixed routine for everyone.</li>
+            <li>Time to notice what is helpful and ask questions.</li>
+            <li>Ideas for safe practice between sessions, if you wish.</li>
           </ul>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="pulse-divider reveal" id="pulse2">
-  <svg viewBox="0 0 340 46"><path class="pulse-path" d="M0,23 L90,23 L112,6 L134,40 L156,23 L188,23 L206,10 L222,36 L240,23 L340,23"/></svg>
-</div>
-
-<!-- ===================== SKILLS ===================== -->
-<section class="skills-section" id="skills">
-  <div class="wrap">
-    <div class="eyebrow reveal">Key Skills</div>
-    <h2 class="section-title reveal">Capability across care and coaching</h2>
-    <p class="section-sub reveal">Skills developed across clinical, coaching and digital service delivery.</p>
-
-    <div class="badge-cloud" id="badgeCloud">
-      <!-- populated via JS for staggered reveal -->
-    </div>
-
-    <div class="competency-block">
-      <h3>Key Competencies</h3>
-      <div id="progList">
-        <!-- populated via JS -->
+  <!-- More than exercise + teacher -->
+  <section class="alt">
+    <div class="wrap grid-2">
+      <div class="card">
+        <h2>Yoga is more than exercise</h2>
+        <p>Yoga has a long tradition of bringing together movement, attention, reflection and ways of living well. Some people come mainly for safe exercise. Others value the quiet, meditative side, or find that the practice gives them space to reflect on what matters in life. You can take part whatever your beliefs; there is no religious requirement.</p>
+        <p>The practices are taught in clear, everyday language. Everything is optional and can be adjusted.</p>
+      </div>
+      <div class="card">
+        <h2>Why learn with a teacher?</h2>
+        <p>A general online video cannot see how you are moving or respond to pain, health conditions or confidence. In these sessions, a trained teacher can explain the practice, offer safer alternatives and help you find an approach that suits you.</p>
+        <p>This matters particularly when you are new to yoga or living with a long-term health condition.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===================== PROJECTS ===================== -->
-<section class="projects" id="projects">
-  <div class="wrap">
-    <div class="eyebrow reveal">Projects</div>
-    <h2 class="section-title reveal">Selected work</h2>
-    <p class="section-sub reveal">Programmes and platforms designed to make preventative healthcare practical.</p>
-
-    <div class="project-grid reveal-stagger">
-      <div class="project-card reveal" style="--i:0">
-        <div class="project-icon"><i class="fa-solid fa-person-falling-burst"></i></div>
-        <div class="project-num">01</div>
-        <h4>Falls Management Exercise Programme</h4>
-        <p>Designed and evaluated an evidence-based exercise programme to improve strength, balance and confidence in older adults.</p>
+  <!-- Who may benefit -->
+  <section id="benefit">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Who may benefit?</span>
+        <h2>The programme may suit adults who want to:</h2>
       </div>
-      <div class="project-card reveal" style="--i:1">
-        <div class="project-icon"><i class="fa-solid fa-heart-circle-check"></i></div>
-        <div class="project-num">02</div>
-        <h4>Luscii Remote Monitoring</h4>
-        <p>Led implementation of remote blood pressure monitoring within Primary Care.</p>
+      <div class="grid-3">
+        <div class="card"><p>Move more comfortably and build confidence in movement.</p></div>
+        <div class="card"><p>Remain active while living with persistent pain.</p></div>
+        <div class="card"><p>Improve strength, balance, mobility or general fitness.</p></div>
+        <div class="card"><p>Feel calmer and manage day-to-day stress.</p></div>
+        <div class="card"><p>Support sleep, energy or concentration.</p></div>
+        <div class="card"><p>Learn practical skills they can continue at home.</p></div>
+        <div class="card tint" style="grid-column:1/-1"><p>Take part in a supportive small group.</p></div>
       </div>
-      <div class="project-card reveal" style="--i:2">
-        <div class="project-icon"><i class="fa-solid fa-house-medical"></i></div>
-        <div class="project-num">03</div>
-        <h4>Viso BP@Home</h4>
-        <p>Delivered Dorset's highest-performing patient onboarding programme.</p>
-      </div>
-      <div class="project-card reveal" style="--i:3">
-        <div class="project-icon"><i class="fa-solid fa-globe"></i></div>
-        <div class="project-num">04</div>
-        <h4>Healthy Living Website</h4>
-        <p>Designed and built an online patient resource promoting healthy lifestyles.</p>
-      </div>
-      <div class="project-card reveal" style="--i:4">
-        <div class="project-icon"><i class="fa-solid fa-seedling"></i></div>
-        <div class="project-num">05</div>
-        <h4>Healthy Ageing Website</h4>
-        <p>Developed a comprehensive information hub for older adults.</p>
-      </div>
-      <div class="project-card reveal" style="--i:5">
-        <div class="project-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-        <div class="project-num">06</div>
-        <h4>Physical Activity Mapping</h4>
-        <p>Created a directory linking patients to local physical activity opportunities and community services.</p>
+      <div class="notice">
+        <p>Yoga affects people differently. It may help some people, but it is not a cure and it does not replace medical assessment, treatment, physiotherapy or psychological support.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===================== VALUES ===================== -->
-<section class="values">
-  <div class="wrap">
-    <div class="eyebrow reveal">Professional Values</div>
-    <h2 class="section-title reveal">What guides the work</h2>
-
-    <div class="values-grid reveal-stagger">
-      <div class="value-card reveal" style="--i:0"><i class="fa-solid fa-user-heart"></i><h4>Patient-centred care</h4></div>
-      <div class="value-card reveal" style="--i:1"><i class="fa-solid fa-handshake"></i><h4>Collaboration</h4></div>
-      <div class="value-card reveal" style="--i:2"><i class="fa-solid fa-lightbulb"></i><h4>Innovation</h4></div>
-      <div class="value-card reveal" style="--i:3"><i class="fa-solid fa-flag"></i><h4>Leadership</h4></div>
-      <div class="value-card reveal" style="--i:4"><i class="fa-solid fa-book-medical"></i><h4>Evidence-based practice</h4></div>
-      <div class="value-card reveal" style="--i:5"><i class="fa-solid fa-bullhorn"></i><h4>Health promotion</h4></div>
-      <div class="value-card reveal" style="--i:6"><i class="fa-solid fa-arrow-trend-up"></i><h4>Continuous learning</h4></div>
-      <div class="value-card reveal" style="--i:7"><i class="fa-solid fa-people-group"></i><h4>Community wellbeing</h4></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== STATS ===================== -->
-<section class="stats">
-  <div class="wrap">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-num"><span class="counter" data-target="2" data-decimals="0">0</span><span class="suffix">+</span></div>
-        <div class="stat-label">Years NHS Primary Care Experience</div>
+  <!-- Suitability -->
+  <section id="suitable" class="white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Is the programme suitable for me?</span>
+        <h2>Safe participation comes first</h2>
       </div>
-      <div class="stat-card">
-        <div class="stat-num"><span class="counter" data-target="5">0</span></div>
-        <div class="stat-label">GP Practices</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num"><span class="counter" data-target="75000">0</span></div>
-        <div class="stat-label">Patients Supported</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num"><span class="counter" data-target="6">0</span></div>
-        <div class="stat-label">Major Service Improvement Projects</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">L4</div>
-        <div class="stat-label">Qualified — Postural Stability Instructor</div>
+      <div class="grid-2">
+        <div class="card tint">
+          <h3>Before you begin</h3>
+          <p>For this course, you must be able to get down to the floor and back up again independently.</p>
+          <p>Please tell the referring clinician and the teacher about any health condition, recent injury, operation, pregnancy, dizziness, balance problem or other concern that may affect safe participation.</p>
+        </div>
+        <div class="card tint">
+          <h3>During sessions</h3>
+          <p>If a movement causes sharp pain, makes symptoms clearly worse or feels unsafe, stop and tell the teacher.</p>
+          <p>You will be encouraged to work within a comfortable range and rest whenever needed.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===================== CAREER GOAL ===================== -->
-<section class="goal">
-  <div class="wrap goal-inner">
-    <div class="eyebrow reveal" style="justify-content:center;">Career Goal</div>
-    <p class="reveal">I'm seeking opportunities within <span class="highlight">community physical activity</span> and <span class="highlight">musculoskeletal rehabilitation</span>, where I can combine my NHS experience, exercise qualifications and passion for helping people improve their health and wellbeing.</p>
-  </div>
-</section>
-
-<div class="pulse-divider reveal" id="pulse3">
-  <svg viewBox="0 0 340 46"><path class="pulse-path" d="M0,23 L90,23 L112,6 L134,40 L156,23 L188,23 L206,10 L222,36 L240,23 L340,23"/></svg>
-</div>
-
-<!-- ===================== CONTACT ===================== -->
-<section class="contact" id="contact">
-  <div class="wrap">
-    <div class="eyebrow reveal" style="justify-content:center;">Contact</div>
-    <h2 class="section-title reveal">Let's talk</h2>
-    <p class="section-sub reveal">Open to conversations about community physical activity and MSK rehabilitation roles.</p>
-
-    <div class="contact-grid reveal-stagger">
-      <div class="contact-card reveal" style="--i:0">
-        <i class="fa-solid fa-user"></i>
-        <div class="clabel">Name</div>
-        <div class="cval">Ben Carter</div>
+  <!-- Practical -->
+  <section id="practical">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Practical information</span>
+        <h2>Everything you need to know</h2>
       </div>
-      <div class="contact-card reveal" style="--i:1">
-        <i class="fa-brands fa-linkedin"></i>
-        <div class="clabel">LinkedIn</div>
-        <div class="cval"><a href="https://www.linkedin.com/in/ben-carter-b87253322/" target="_blank" rel="noopener">linkedin.com/in/ben-carter</a></div>
+      <dl class="info" style="margin:0">
+        <div class="row"><dt>Dates</dt><dd>1, 8, 15 and 29 November; 6 and 13 December 2026</dd></div>
+        <div class="row"><dt>No session</dt><dd>22 November 2026</dd></div>
+        <div class="row"><dt>Time</dt><dd>08.45–09.45 (please arrive 5–10 minutes early)</dd></div>
+        <div class="row"><dt>Cost</dt><dd>Free to eligible NHS patients</dd></div>
+        <div class="row wide"><dt>Venue</dt><dd>Coastland Sports Centre, Weymouth Campus, Coastland College, Cranford Avenue, Weymouth, DT4 7LQ</dd></div>
+        <div class="row"><dt>Places</dt><dd>Maximum 15</dd></div>
+        <div class="row"><dt>Access</dt><dd>Referral through your GP practice team / local PCN pathway</dd></div>
+        <div class="row"><dt>What to wear</dt><dd>Comfortable clothes that allow you to move</dd></div>
+        <div class="row"><dt>What to bring</dt><dd>Your own mat (if you have one) and a blanket. Water for after the practice (not during).</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Feedback -->
+  <section id="feedback" class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Participant feedback</span>
+        <h2>What participants have told us</h2>
+        <p class="lead">These comments come from people who attended the NHS Neighbourhood Yoga programme.</p>
       </div>
-      <div class="contact-card reveal" style="--i:2">
-        <i class="fa-regular fa-envelope"></i>
-        <div class="clabel">Email</div>
-        <div class="cval"><a href="mailto:carterben725@gmail.com">carterben725@gmail.com</a></div>
+      <div class="quotes">
+        <blockquote><p>I've felt more relaxed and calmer after the sessions, with a real sense of release mentally and physically.</p></blockquote>
+        <blockquote><p>It has helped my sciatica and my sleep quality. It is also helping my back.</p></blockquote>
+        <blockquote><p>Feeling calmer and more energised after classes.</p></blockquote>
+        <blockquote><p>Calm, and a feeling of wellbeing.</p></blockquote>
+        <blockquote><p>That I can be still.</p></blockquote>
+        <blockquote><p>The yoga classes have given me a new sense of purpose and enhanced my wellbeing.</p></blockquote>
       </div>
-      <div class="contact-card reveal" style="--i:3">
-        <i class="fa-solid fa-phone"></i>
-        <div class="clabel">Phone</div>
-        <div class="cval"><a href="tel:+447810183098">07810 183098</a></div>
+
+      <div class="card" style="margin-top:34px">
+        <h3>Benefits emerging from the questionnaires</h3>
+        <p>In the current matched feedback from 10 participants, the clearest positive patterns were in:</p>
+        <ul class="pattern-list">
+          <li>Confidence in dealing with challenges</li>
+          <li>Daytime energy</li>
+          <li>Sleep</li>
+          <li>Emotional wellbeing</li>
+          <li>Feeling calmer and less distracted</li>
+          <li>Ability to focus</li>
+          <li>Connection with other people</li>
+        </ul>
+        <p>Changes in physical discomfort and overall physical health were smaller and mixed.</p>
+        <p>This is an early service evaluation, not a clinical trial. The group is small, there is no comparison group and the questionnaire is based on self-report. The findings are encouraging, but they do not prove that yoga caused the changes.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===================== FOOTER ===================== -->
+  <!-- Evidence -->
+  <section id="evidence">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Evidence</span>
+        <h2>What the evidence says</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card evidence-card">
+          <h3>Movement and persistent pain</h3>
+          <p>NICE recommends supervised group exercise for adults with chronic primary pain, adapted to individual needs, abilities and preferences.</p>
+        </div>
+        <div class="card evidence-card">
+          <h3>Low back pain</h3>
+          <p>A 2022 Cochrane review found that yoga may produce small improvements in pain and back-related function compared with no exercise. Benefits were similar to other back-focused exercise, and the average differences were small.</p>
+        </div>
+        <div class="card evidence-card">
+          <h3>Stress, sleep and emotional wellbeing</h3>
+          <p>Research suggests yoga may support stress management, sleep and mental or emotional wellbeing for some people, but results vary and the evidence is not equally strong for every outcome or health condition.</p>
+        </div>
+        <div class="card evidence-card">
+          <h3>Meditation and focused attention</h3>
+          <p>Yoga can include quiet attention and meditation as well as movement. These practices may help some people notice thoughts and physical tension without reacting to them immediately. They are skills to practise, not a guaranteed treatment.</p>
+        </div>
+        <div class="card evidence-card" style="grid-column:1/-1">
+          <h3>Safety and teaching</h3>
+          <p>Yoga is generally considered safe when it is taught appropriately. A qualified teacher can adapt practices and help reduce avoidable strain, particularly for beginners and people with health conditions.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:40px">Read more</h3>
+      <ul class="links">
+        <li><a href="https://www.nice.org.uk/guidance/ng193/chapter/recommendations" target="_blank" rel="noopener">Recommendations for chronic primary pain<small>NICE guideline NG193</small></a></li>
+        <li><a href="https://www.cochrane.org/evidence/CD010671_yoga-chronic-non-specific-low-back-pain" target="_blank" rel="noopener">Yoga for chronic non-specific low back pain<small>Cochrane (2022)</small></a></li>
+        <li><a href="https://www.nccih.nih.gov/health/yoga-effectiveness-and-safety" target="_blank" rel="noopener">Yoga effectiveness and safety<small>NCCIH</small></a></li>
+        <li><a href="https://www.nccih.nih.gov/health/mind-and-body-practices" target="_blank" rel="noopener">Mind and body practices<small>NCCIH</small></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Referral CTA -->
+  <section id="referral" class="cta">
+    <div class="wrap">
+      <span class="eyebrow" style="color:#f1c9b0">How to ask for a place</span>
+      <h2>Ask your GP practice team for a referral</h2>
+      <p>Speak to a member of your GP practice team. They can check whether the programme is suitable and make a referral.</p>
+      <p>Places are limited. If you accept a place and later cannot attend, please let the practice know promptly so it can be offered to somebody else.</p>
+    </div>
+  </section>
+
+  <!-- Book Now -->
+  <section id="book" class="book">
+    <div class="wrap">
+      <div class="book-card">
+        <span class="eyebrow">Book now</span>
+        <h2>Book Now for the free PCN Yoga sessions</h2>
+        <p class="lead">Send a booking enquiry for the free PCN Yoga sessions by email.</p>
+        <div class="book-actions">
+          <a class="btn large" href="mailto:w%26p.pcn@dorsetgp.nhs.uk?subject=PCN%20Yoga%20session%20booking%20enquiry&amp;body=Hello%2C%0D%0A%0D%0AI%20would%20like%20to%20make%20a%20booking%20enquiry%20for%20the%20free%20PCN%20Yoga%20sessions.%0D%0A%0D%0AThank%20you.">Book Now</a>
+        </div>
+        <p class="book-email">Email: <a href="mailto:w%26p.pcn@dorsetgp.nhs.uk?subject=PCN%20Yoga%20session%20booking%20enquiry&amp;body=Hello%2C%0D%0A%0D%0AI%20would%20like%20to%20make%20a%20booking%20enquiry%20for%20the%20free%20PCN%20Yoga%20sessions.%0D%0A%0D%0AThank%20you.">w&amp;p.pcn@dorsetgp.nhs.uk</a></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
 <footer>
   <div class="wrap">
-    <p><span class="foot-name">Ben Carter</span> — NHS Primary Care &amp; Exercise Professional &nbsp;<span class="heart">&#9679;</span>&nbsp; © <span id="year"></span></p>
+    <p><strong>NHS Neighbourhood Yoga</strong> · Two Harbours Healthcare PCN</p>
+    <p>Yoga affects people differently. It may help some people, but it is not a cure and it does not replace medical assessment, treatment, physiotherapy or psychological support.</p>
   </div>
 </footer>
 
-<script>
-/* ==========================================================
-   Ben Carter Portfolio — vanilla JS
-   Handles: sticky nav state, mobile menu, smooth scroll
-   active link, scroll-reveal animations, animated badges,
-   progress bars, animated counters, pulse-divider draw-in.
-   ========================================================== */
-(function(){
-  'use strict';
-
-  /* ---------- Data: skills & competencies ---------- */
-  var SKILLS = [
-    "Falls Prevention","Strength & Balance","Exercise Prescription","Behaviour Change",
-    "Healthy Ageing","Motivational Interviewing","Leadership","Digital Transformation",
-    "Project Management","Quality Improvement","Health Promotion","Patient Education",
-    "Remote Monitoring","Community Engagement","Partnership Working","Primary Care",
-    "Exercise Referral","Service Development"
-  ];
-
-  var COMPETENCIES = [
-    { name: "Falls Prevention & Balance Training", value: 95 },
-    { name: "Exercise Prescription", value: 90 },
-    { name: "Digital Health Innovation", value: 85 },
-    { name: "Stakeholder Collaboration", value: 92 },
-    { name: "Service Improvement & Leadership", value: 80 }
-  ];
-
-  /* ---------- Populate skill badges ---------- */
-  var badgeCloud = document.getElementById('badgeCloud');
-  SKILLS.forEach(function(skill, i){
-    var el = document.createElement('span');
-    el.className = 'badge';
-    el.style.setProperty('--i', i);
-    el.style.transitionDelay = (i * 45) + 'ms';
-    el.textContent = skill;
-    badgeCloud.appendChild(el);
-  });
-
-  /* ---------- Populate competency progress bars ---------- */
-  var progList = document.getElementById('progList');
-  COMPETENCIES.forEach(function(c){
-    var row = document.createElement('div');
-    row.className = 'prog-row';
-    row.innerHTML =
-      '<div class="prog-labels"><span class="pname">' + c.name + '</span></div>' +
-      '<div class="prog-track"><div class="prog-fill" data-value="' + c.value + '"></div></div>';
-    progList.appendChild(row);
-  });
-
-  /* ---------- Footer year ---------- */
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  /* ---------- Sticky nav background on scroll ---------- */
-  var nav = document.getElementById('nav');
-  function onScrollNav(){
-    if (window.scrollY > 40){ nav.classList.add('scrolled'); }
-    else { nav.classList.remove('scrolled'); }
-  }
-  window.addEventListener('scroll', onScrollNav, { passive:true });
-  onScrollNav();
-
-  /* ---------- Mobile nav toggle ---------- */
-  var navToggle = document.getElementById('navToggle');
-  var navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', function(){
-    navLinks.classList.toggle('open');
-    var icon = navToggle.querySelector('i');
-    var open = navLinks.classList.contains('open');
-    icon.className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
-  });
-  navLinks.querySelectorAll('a').forEach(function(link){
-    link.addEventListener('click', function(){
-      navLinks.classList.remove('open');
-      navToggle.querySelector('i').className = 'fa-solid fa-bars';
-    });
-  });
-
-  /* ---------- Active nav link on scroll ---------- */
-  var sections = document.querySelectorAll('section[id], header[id]');
-  var navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
-  function onScrollActive(){
-    var scrollPos = window.scrollY + 140;
-    var currentId = '';
-    sections.forEach(function(sec){
-      if (scrollPos >= sec.offsetTop) currentId = sec.id;
-    });
-    navAnchors.forEach(function(a){
-      a.classList.toggle('active', a.getAttribute('href') === '#' + currentId);
-    });
-  }
-  window.addEventListener('scroll', onScrollActive, { passive:true });
-  onScrollActive();
-
-  /* ---------- Generic scroll-reveal (IntersectionObserver) ---------- */
-  var revealEls = document.querySelectorAll('.reveal');
-  var revealObserver = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting){
-        entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-  revealEls.forEach(function(el){ revealObserver.observe(el); });
-
-  /* ---------- Badge reveal (separate, lighter threshold) ---------- */
-  var badgeObserver = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting){
-        entry.target.classList.add('is-visible');
-        badgeObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('.badge').forEach(function(b){ badgeObserver.observe(b); });
-
-  /* ---------- Pulse divider draw-in ---------- */
-  var pulseObserver = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting){
-        entry.target.classList.add('is-visible');
-        pulseObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('.pulse-divider').forEach(function(p){ pulseObserver.observe(p); });
-
-  /* ---------- Progress bar fill on scroll into view ---------- */
-  var progObserver = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting){
-        entry.target.style.width = entry.target.getAttribute('data-value') + '%';
-        progObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.4 });
-  document.querySelectorAll('.prog-fill').forEach(function(p){ progObserver.observe(p); });
-
-  /* ---------- Animated stat counters ---------- */
-  function animateCounter(el){
-    var target = parseFloat(el.getAttribute('data-target'));
-    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
-    var duration = 1600;
-    var startTime = null;
-
-    function step(ts){
-      if (!startTime) startTime = ts;
-      var progress = Math.min((ts - startTime) / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3); /* ease-out cubic */
-      var current = target * eased;
-      el.textContent = decimals > 0
-        ? current.toFixed(decimals)
-        : Math.floor(current).toLocaleString('en-GB');
-      if (progress < 1){
-        requestAnimationFrame(step);
-      } else {
-        el.textContent = decimals > 0
-          ? target.toFixed(decimals)
-          : target.toLocaleString('en-GB');
-      }
-    }
-    requestAnimationFrame(step);
-  }
-
-  var counterObserver = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting){
-        animateCounter(entry.target);
-        counterObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('.counter').forEach(function(c){ counterObserver.observe(c); });
-
-})();
-</script>
 </body>
 </html>
